@@ -1,0 +1,5 @@
+flask==2.0.3
+Flask-Migrate==3.1.0
+pydantic==1.9.1
+pydantic-sqlalchemy==0.0.9
+Flask-Pydantic==0.9.0
