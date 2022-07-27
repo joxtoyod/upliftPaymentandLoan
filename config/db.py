@@ -1,3 +1,1 @@
-DATABASE_CONNECTION_URI = (
-    f"sqlite:///uplift.db"
-)
+DATABASE_CONNECTION_URI = f"sqlite:///uplift.db"
