@@ -1,0 +1,38 @@
+interactions:
+- request:
+    body: "{\r\n    \"purchase_name\": \"Miami Cruise\",\r\n    \"account_id\": 1,\r\n
+      \   \"amount\": 1500.5\r\n}"
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '86'
+      Content-Type:
+      - application/json
+      User-Agent:
+      - python-requests/2.28.1
+    method: POST
+    uri: http://localhost:5000/loan/create
+  response:
+    body:
+      string: '{"id": 13, "purchase_name": "Miami Cruise", "account_id": 1, "amount":
+        1500.5, "month_remaining": 12, "status": null, "created_at": "2022-08-01T17:20:52.188204"}'
+    headers:
+      Connection:
+      - close
+      Content-Length:
+      - '161'
+      Content-Type:
+      - application/json
+      Date:
+      - Tue, 02 Aug 2022 00:20:52 GMT
+      Server:
+      - Werkzeug/2.2.0 Python/3.9.1
+    status:
+      code: 200
+      message: OK
+version: 1
