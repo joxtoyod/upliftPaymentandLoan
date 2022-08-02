@@ -1,5 +1,5 @@
 from models import models
 
 
-def create_transactions(loan: models.Loan, type:models.TransactionType):
+def create_transactions(loan_id: str, type:models.TransactionType):
     pass

@@ -1,10 +1,11 @@
-from flask import Flask
+from flask import Flask, request
 from flask_migrate import Migrate
 from models import models
 from schemas import validators
 from services import transactions, ledger
 from config.db import DATABASE_CONNECTION_URI
 from flask_pydantic import validate
+
 
 
 def create_app():
@@ -37,14 +38,28 @@ def create_account(body: validators.PydanticAccountRequest):
 @app.route("/loan/create", methods=["POST"])
 @validate()
 def create_loan(body: validators.PydanticLoanRequest):
+    idempotency_key = request.headers.get('Idempotency-Key')
+
+    if not idempotency_key:
+       return 'bad request', 400
+    
+    if has_idempotentent_key(idempotency_key):
+       transaction = transactions.get(lidempotency_key=idempotency_key)
+       loan = models.Loan.get(transaction.loan_id)
+       return models.PydanticLoan.from_orm(loan)
+
+    service.save_idempotency(idempotency_key,dat=body, expiry=86400) #seconds
+    
     loan = models.Loan(**body.__dict__)
     models.db.session.add(loan)
+
+    transaction = transactions.get_or_create_transactions(loan,type=models.TransactionType.charge)
+    models.db.session.add(transaction)
     models.db.session.commit()
-    loan = models.Loan.query.get(loan.id)
-    transaction = transactions.create_transactions(
-        loan, type=models.TransactionType.charge
-    )
     ledger.add_to_ledger(transaction)
+
+    loan = models.Loan.query.get(loan_id=transaction.loan_id)
+
     return models.PydanticLoan.from_orm(loan)
 
 
